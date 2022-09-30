@@ -80,10 +80,11 @@ namespace ISCEXtest1
 
         static List<int> startCoordsY = initializeStartCoordsY1(gameBoard);
 
-        static int[,] afflictedZone = new int[gameBoard.Size + 1, gameBoard.Size + 1];
+        //static int[,] afflictedZone;
 
         public static List<CellDesign> displayBoard(Board useBoard, int[,] blockZone, List<CellDesign> designs)
         {
+            designs.Clear();
             List<string> strings = new List<string>();
 
             for (int x = 0; x < useBoard.Size; x++)
@@ -110,14 +111,14 @@ namespace ISCEXtest1
             }
             return designs;
         }
-        static List<CellDesign> gameState = displayBoard(gameBoard,gameStateOriginal,cellListOriginal);
+        //static List<CellDesign> gameState = displayBoard(gameBoard,blockZone,designs);
 
-        public static void addShip(int size, bool up)
+        public static int[,] addShip(int size, bool up, List<CellDesign> gameState, int[,]afflictedZone, List<ShipDesigner>shipList)
         {
+            ShipDesigner ship = new ShipDesigner(size, up);
 
             if (up == false)
             {
-                ShipDesigner ship = new ShipDesigner(size, up);
                 if (afflictedZone[startCoordsX2[xi1], startCoordsY[yi1]] == 1)
                 {
                     yi1++;
@@ -140,11 +141,9 @@ namespace ISCEXtest1
 
             }
             Console.Clear();
-            gameState = displayBoard(gameBoard, afflictedZone, cellListOriginal);
-
+            gameState = displayBoard(gameBoard, afflictedZone, gameState);
             if (up == true)
             {
-                ShipDesigner ship = new ShipDesigner(size, up);
 
                 if (afflictedZone[startCoordsX1[xi1], startCoordsY[yi2]] == 1)
                 {
@@ -169,11 +168,26 @@ namespace ISCEXtest1
                 }
 
                 Console.Clear();
-                gameState = displayBoard(gameBoard, afflictedZone, cellListOriginal);
+                gameState = displayBoard(gameBoard, afflictedZone, gameState);
 
             }
+            shipList.Add(ship);
+            return afflictedZone;
         }
+        
+        public static List<CellDesign> initializeGame(int dimensions, List<CellDesign>designs, List<int> boardInfo, int[,]blockZone, List<int> startCoordsX1, List<int> startCoordsX2, List<int> startCoordsY)
+        {
+            Board board = setBoardDimensions(dimensions);
+            boardInfo = initializeBoardStuff(board);
+            blockZone = initializeStartArea(board);
+            startCoordsX1 = initializeStartCoordsX1();
+            startCoordsX2 = initializeStartCoordsX2(board);
+            startCoordsY = initializeStartCoordsY1(board);
+            int[,] afflictedZone = new int[board.Size + 1, board.Size + 1];
+            designs = displayBoard(board, blockZone, designs);
+            return designs;
 
+        }
 
     }
 

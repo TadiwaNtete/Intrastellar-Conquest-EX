@@ -14,7 +14,7 @@ namespace ISCEXtest1
 {
     public partial class GamePage2 : Form
     {
-        int size = 0;
+        public static int size = 0;
         //        public static List<CellDesign> initializeGame(int dimensions, List<CellDesign>designs, List<int> boardInfo, int[,]blockZone, List<int> startCoordsX1, List<int> startCoordsX2, List<int> startCoordsY)
         public static List<CellDesign> designs = new List<CellDesign>();
         static List<int> boardInfo;
@@ -48,7 +48,7 @@ namespace ISCEXtest1
 
         private void small_Click(object sender, EventArgs e)
         {
-            size = 32;
+            size = 8;
         }
 
         private void big_Click(object sender, EventArgs e)

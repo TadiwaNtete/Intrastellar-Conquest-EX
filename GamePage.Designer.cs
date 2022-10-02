@@ -30,6 +30,7 @@
         {
             this.StartButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // StartButton
@@ -39,7 +40,7 @@
             this.StartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StartButton.Font = new System.Drawing.Font("SimSun", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.StartButton.ForeColor = System.Drawing.Color.Lime;
-            this.StartButton.Location = new System.Drawing.Point(450, 450);
+            this.StartButton.Location = new System.Drawing.Point(-3, 27);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(200, 74);
             this.StartButton.TabIndex = 0;
@@ -49,6 +50,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.StartButton);
             this.panel1.Location = new System.Drawing.Point(450, 423);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(200, 128);
@@ -61,10 +63,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(1084, 1061);
-            this.Controls.Add(this.StartButton);
             this.Controls.Add(this.panel1);
             this.Name = "GamePage";
             this.Text = "GamePage";
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

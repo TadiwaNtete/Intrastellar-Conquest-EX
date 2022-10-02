@@ -16,7 +16,9 @@ namespace ISCEXtest1
         static int oSize = GamePage2.designs.Count;
         static int nSize = (int)Math.Sqrt(oSize);
         public static int[,] afflictedZone = new int[nSize, nSize];
-        public static List<ShipDesigner> shipList = new List<ShipDesigner>();
+        public static List<ShipDesigner> shipListN = new List<ShipDesigner>();
+        public static List<ShipDesigner> shipListS = new List<ShipDesigner>();
+
 
         public GamePage3()
         {
@@ -25,7 +27,22 @@ namespace ISCEXtest1
 
         private void AddShip_Click(object sender, EventArgs e)
         {
-            afflictedZone = GameCommands.addShip(5, true, GamePage2.designs, afflictedZone,shipList);
+            afflictedZone = GameCommands.addShip(2, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(4, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(7, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(4, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, true, GamePage2.designs, afflictedZone, shipListN, shipListS);
+
+            afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(4, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(7, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(4, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+            afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
+
             var afflicted = GamePage2.designs.Where(a => a.isOccupied == true).FirstOrDefault();
             graphicstest graphicstest = new graphicstest();
             graphicstest.ShowDialog();

@@ -21,7 +21,7 @@ namespace ISCEXtest1
             return gameBoard;
         }
 
-        static Board gameBoard = GameCommands.setBoardDimensions(64);
+        static Board gameBoard = GameCommands.setBoardDimensions(GamePage2.size);
 
         public static List<int> initializeBoardStuff(Board board)
         {
@@ -60,7 +60,7 @@ namespace ISCEXtest1
 
         public static List<int> initializeStartCoordsX2(Board board)
         {
-            List<int> startCoordsX2 = new List<int>() { board.Size };
+            List<int> startCoordsX2 = new List<int>() { board.Size -1 };
             return startCoordsX2;
         }
 
@@ -113,36 +113,41 @@ namespace ISCEXtest1
         }
         //static List<CellDesign> gameState = displayBoard(gameBoard,blockZone,designs);
 
-        public static int[,] addShip(int size, bool up, List<CellDesign> gameState, int[,]afflictedZone, List<ShipDesigner>shipList)
+        public static int[,] addShip(int size, bool up, List<CellDesign> gameState, int[,]afflictedZone, List<ShipDesigner>shipListN,List<ShipDesigner>ShipListS)
         {
             ShipDesigner ship = new ShipDesigner(size, up);
 
-            if (up == false)
+            if (up == true)
             {
                 if (afflictedZone[startCoordsX2[xi1], startCoordsY[yi1]] == 1)
                 {
                     yi1++;
                 }
                 else
-                {
+                    {
                     ship.xLoc = startCoordsX2[xi1];
                     ship.yLoc = startCoordsY[yi1];
                 }
+                    
+
+                int y = gameBoard.Size - ship.Size;
+
 
                 for (int i = 0; i < ship.Size; i++)
                 {
-                    afflictedZone[xi1 + i, ship.yLoc] = 1;
+                    afflictedZone[startCoordsX2[xi1] - i, ship.yLoc] = 1;
                 }
                 yi1++;
                 if (yi1 == startCoordsY.Count)
                 {
                     yi1 = 0;
                 }
-
+                ShipListS.Add(ship);
+                Console.Clear();
+                gameState = displayBoard(gameBoard, afflictedZone, gameState);
             }
-            Console.Clear();
-            gameState = displayBoard(gameBoard, afflictedZone, gameState);
-            if (up == true)
+            
+            if (up == false)
             {
 
                 if (afflictedZone[startCoordsX1[xi1], startCoordsY[yi2]] == 1)
@@ -159,7 +164,7 @@ namespace ISCEXtest1
 
                 for (int i = 0; i < ship.Size; i++)
                 {
-                    afflictedZone[z + i, ship.yLoc] = 1;
+                    afflictedZone[startCoordsX1[xi1]+i, ship.yLoc] = 1;
                 }
                 yi2++;
                 if (yi2 == startCoordsY.Count)
@@ -168,21 +173,22 @@ namespace ISCEXtest1
                 }
 
                 Console.Clear();
+                shipListN.Add(ship);
+
                 gameState = displayBoard(gameBoard, afflictedZone, gameState);
 
             }
-            shipList.Add(ship);
             return afflictedZone;
         }
         
-        public static List<CellDesign> initializeGame(int dimensions, List<CellDesign>designs, List<int> boardInfo, int[,]blockZone, List<int> startCoordsX1, List<int> startCoordsX2, List<int> startCoordsY)
+        public static List<CellDesign> initializeGame(int dimensions, List<CellDesign>designs, List<int> boardInfo, int[,]blockZone, List<int> StartCoordsX1, List<int> StartCoordsX2, List<int> StartCoordsY)
         {
             Board board = setBoardDimensions(dimensions);
             boardInfo = initializeBoardStuff(board);
             blockZone = initializeStartArea(board);
-            startCoordsX1 = initializeStartCoordsX1();
-            startCoordsX2 = initializeStartCoordsX2(board);
-            startCoordsY = initializeStartCoordsY1(board);
+            StartCoordsX1 = initializeStartCoordsX1();
+            StartCoordsX2 = initializeStartCoordsX2(board);
+            StartCoordsY = initializeStartCoordsY1(board);
             int[,] afflictedZone = new int[board.Size + 1, board.Size + 1];
             designs = displayBoard(board, blockZone, designs);
             return designs;

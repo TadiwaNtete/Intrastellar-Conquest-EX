@@ -43,7 +43,7 @@
             this.AddShip.Name = "AddShip";
             this.AddShip.Size = new System.Drawing.Size(200, 74);
             this.AddShip.TabIndex = 7;
-            this.AddShip.Text = "AddShip";
+            this.AddShip.Text = "InitializeShip";
             this.AddShip.UseVisualStyleBackColor = false;
             this.AddShip.Click += new System.EventHandler(this.AddShip_Click);
             // 

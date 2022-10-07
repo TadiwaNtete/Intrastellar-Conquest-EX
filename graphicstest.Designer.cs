@@ -53,6 +53,8 @@
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MoveShip = new System.Windows.Forms.Button();
+            this.ConfirmMove = new System.Windows.Forms.Button();
+            this.movementbutton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -68,7 +70,10 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1000, 1056);
             this.panel1.TabIndex = 0;
+            this.panel1.Scroll += new System.Windows.Forms.ScrollEventHandler(this.panel1_Scroll);
+            this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             // 
             // shipDesignerBindingSource1
             // 
@@ -240,12 +245,46 @@
             this.MoveShip.UseVisualStyleBackColor = false;
             this.MoveShip.Click += new System.EventHandler(this.MoveShip_Click);
             // 
+            // ConfirmMove
+            // 
+            this.ConfirmMove.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.ConfirmMove.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.ConfirmMove.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ConfirmMove.Font = new System.Drawing.Font("SimSun", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ConfirmMove.ForeColor = System.Drawing.Color.Lime;
+            this.ConfirmMove.Location = new System.Drawing.Point(12, 272);
+            this.ConfirmMove.Name = "ConfirmMove";
+            this.ConfirmMove.Size = new System.Drawing.Size(156, 74);
+            this.ConfirmMove.TabIndex = 10;
+            this.ConfirmMove.Text = "Confirm";
+            this.ConfirmMove.UseVisualStyleBackColor = false;
+            this.ConfirmMove.Visible = false;
+            this.ConfirmMove.Click += new System.EventHandler(this.ConfirmMove_Click);
+            // 
+            // movementbutton
+            // 
+            this.movementbutton.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.movementbutton.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.movementbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.movementbutton.Font = new System.Drawing.Font("SimSun", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.movementbutton.ForeColor = System.Drawing.Color.Lime;
+            this.movementbutton.Location = new System.Drawing.Point(12, 384);
+            this.movementbutton.Name = "movementbutton";
+            this.movementbutton.Size = new System.Drawing.Size(156, 74);
+            this.movementbutton.TabIndex = 11;
+            this.movementbutton.Text = "Set";
+            this.movementbutton.UseVisualStyleBackColor = false;
+            this.movementbutton.Visible = false;
+            this.movementbutton.Click += new System.EventHandler(this.movementbutton_Click);
+            // 
             // graphicstest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.Controls.Add(this.movementbutton);
+            this.Controls.Add(this.ConfirmMove);
             this.Controls.Add(this.MoveShip);
             this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
@@ -286,5 +325,7 @@
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private Button MoveShip;
+        private Button ConfirmMove;
+        private Button movementbutton;
     }
 }

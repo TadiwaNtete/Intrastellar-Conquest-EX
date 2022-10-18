@@ -28,6 +28,8 @@ namespace ISCEXtest1
         public static List<int> NeoZone = new List<int>();
         public static int selectedColumn;
         public static int selectedRow;
+        public static int originalColumn;
+        public static int originalRow;
         public static bool moveAllow = false;
         public static bool selectedMove = false;
 
@@ -64,6 +66,13 @@ namespace ISCEXtest1
 
                         SKPaint redInit = new SKPaint();
                         SKPaint blueInit = new SKPaint();
+                        SKPaint yellowInit = new SKPaint();
+
+                        yellowInit.Color = SKColors.Yellow;
+                        yellowInit.IsAntialias = true;
+                        yellowInit.StrokeWidth = 5;
+                        yellowInit.Style = SKPaintStyle.Stroke;
+
 
                         blueInit.Color = SKColors.Blue;
                         blueInit.IsAntialias = true;
@@ -82,27 +91,35 @@ namespace ISCEXtest1
 
                         for(int x = 0; x < GamePage2.designs.Count;x++)
                         {
-                            if (GamePage2.designs[x].isOccupied == false)
+                            if (GamePage2.designs[x].Selected == true)
                             {
-                                if (GamePage2.designs[x].Legal == true)
-                                {
-                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
-
-                                }
-                                else if (GamePage2.designs[x].Legal == false)
-                                {
-                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, gridInit);
-                                }
+                                canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, yellowInit);
                             }
-                            else if (GamePage2.designs[x].isOccupied == true)
+                            else if (GamePage2.designs[x].Selected == false)
                             {
-                                if(GamePage2.designs[x].Legal == true)
+                                if (GamePage2.designs[x].isOccupied == false)
                                 {
-                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
+                                    if (GamePage2.designs[x].Legal == true)
+                                    {
+                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
 
-                                } else if (GamePage2.designs[x].Legal == false)
+                                    }
+                                    else if (GamePage2.designs[x].Legal == false)
+                                    {
+                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, gridInit);
+                                    }
+                                }
+                                else if (GamePage2.designs[x].isOccupied == true)
                                 {
-                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
+                                    if (GamePage2.designs[x].Legal == true)
+                                    {
+                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
+
+                                    }
+                                    else if (GamePage2.designs[x].Legal == false)
+                                    {
+                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
+                                    }
                                 }
                             }
                         }
@@ -167,17 +184,33 @@ namespace ISCEXtest1
         }
         private void ConfirmMove_Click(object sender, EventArgs e)
         {
+            int ind = dataGridView1.CurrentCell.RowIndex;
             ConfirmMove.Visible = false;
-            if(selectedMove == true)
-            {
-                for (int i = 0; i < GamePage2.designs.Count; i++)
+            if (selectedMove == true)
+            {  
+
+                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
                 {
-                    if (GamePage2.designs[i].Legal == true)
-                    {
-                        GamePage2.designs[i].Legal = false;
-                    }
+                    int thirdInd = GamePage2.designs.FindIndex(x => x.Column == originalColumn && x.Row == originalRow + size);
+                    GamePage2.designs[thirdInd].isOccupied = false;
                 }
+
+
+
+                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
+                {
+                    int firstInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc+size);
+                    GamePage2.designs[firstInd].isOccupied = true;
+                }
+                for(int i = 0; i<GamePage2.designs.Count; i++)
+                {
+                    GamePage2.designs[i].Selected = false;
+                    GamePage2.designs[i].Legal = false;
+                }
+                pictureBox1.Refresh();
+                panel1.Refresh();
                 moveAllow = false;
+                MoveShip.Visible = true;
             }else if (selectedMove == false)
             {
                 MessageBox.Show("select a move");
@@ -207,35 +240,33 @@ namespace ISCEXtest1
                 selectedRow = e.Y;
                 int newColumn;
                 int newRow;
+                double dColumn;
+                double dRow;
 
-                newRow = Math.Abs(GamePage3.shipListN[ind].xLoc - selectedRow);
-                newColumn = Math.Abs(GamePage3.shipListN[ind].yLoc - selectedColumn);
+                newRow = selectedRow;
+                newColumn = selectedColumn;
 
+                dRow = newRow / 9;
+                dColumn = newColumn / 9;
 
-                int firstInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
+                newColumn = Convert.ToInt32(dColumn);
+                newRow = Convert.ToInt32(dRow);
 
-                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
-                {
-                    //GamePage2.designs[firstInd + size].isOccupied = false;
-                    int thirdInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + size);
-                    GamePage2.designs[thirdInd].isOccupied = false;
-                }
-
-                GamePage3.shipListN[ind].xLoc = GamePage3.shipListN[ind].xLoc + selectedRow;
-                GamePage3.shipListN[ind].yLoc = GamePage3.shipListN[ind].yLoc + selectedColumn;
+                originalRow = GamePage3.shipListN[ind].xLoc;
+                originalColumn = GamePage3.shipListN[ind].yLoc;
+                GamePage3.shipListN[ind].xLoc = newRow;
+                GamePage3.shipListN[ind].yLoc = newColumn;
 
                 //int secInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
 
-                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
-                {
-                    int fourthInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + size);
-                    GamePage2.designs[fourthInd].isOccupied = true;
-                }
+                    int fourthInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
+                    GamePage2.designs[fourthInd].Selected = true;
+
 
                 pictureBox1.Refresh();
                 panel1.Refresh();
                 moveAllow = false;
-
+                selectedMove = true;
 
             }
             else

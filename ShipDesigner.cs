@@ -22,17 +22,17 @@ namespace ISCEXtest1
             facingNorth = direction;
             if(Size == 2)
             {
-                speed = 4;
+                speed = 8;
                 range = 1;
             }
             else if(Size == 4)
             {
-                speed = 2;
+                speed = 5;
                 range = 2;
             }
             else if(size==7)
             {
-                speed = 1;
+                speed = 2;
                 range = 4;
             }
             

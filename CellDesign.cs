@@ -12,6 +12,7 @@ namespace ISCEXtest1
         public int Column { get; set; }
         public bool isOccupied { get; set; }
         public bool Legal { get; set; }
+        public bool Selected { get; set; }
         public CellDesign(int x, int y)
         {
             Row = x;

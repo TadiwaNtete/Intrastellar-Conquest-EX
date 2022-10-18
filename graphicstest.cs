@@ -11,6 +11,8 @@ using SkiaSharp;
 using SkiaSharp.Internals;
 using SkiaSharp.Views.Forms;
 using SkiaSharp.Views.WPF;
+using Xamarin.Forms;
+
 namespace ISCEXtest1
 {
     public partial class graphicstest : Form
@@ -20,21 +22,14 @@ namespace ISCEXtest1
             InitializeComponent();
 
         }
-        public static bool bool1 = false;
-        public static bool bool2 = false;
-        public static bool bool3 = false;
-        public static bool bool4 = false;
-        public static bool bool5 = false;
-        public static bool bool6 = true;
         public static int ind;
         public static int nX = -1;
         public static int nY = -1;
         public static List<int> NeoZone = new List<int>();
-        public static SolidBrush brushgreen = new SolidBrush(Color.Green);
-        public static SolidBrush brushred = new SolidBrush(Color.Red);
-        public static SolidBrush brushcyan = new SolidBrush(Color.Cyan);
-        public static Pen pencyan = new Pen(Color.Cyan);
-
+        public static int selectedColumn;
+        public static int selectedRow;
+        public static bool moveAllow = false;
+        public static bool selectedMove = false;
 
         private void graphicstest_Load(object sender, EventArgs e)
         {
@@ -68,10 +63,18 @@ namespace ISCEXtest1
                     {
 
                         SKPaint redInit = new SKPaint();
+                        SKPaint blueInit = new SKPaint();
+
+                        blueInit.Color = SKColors.Blue;
+                        blueInit.IsAntialias = true;
+                        blueInit.StrokeWidth = 5;
+                        blueInit.Style = SKPaintStyle.Stroke;
+
                         redInit.Color = SKColors.Red;
                         redInit.IsAntialias = true;
                         redInit.StrokeWidth = 5;
                         redInit.Style = SKPaintStyle.Stroke;
+
                         gridInit.Color = grid;
                         gridInit.IsAntialias = true;
                         gridInit.StrokeWidth = 5;
@@ -81,11 +84,26 @@ namespace ISCEXtest1
                         {
                             if (GamePage2.designs[x].isOccupied == false)
                             {
-                                canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, gridInit);
+                                if (GamePage2.designs[x].Legal == true)
+                                {
+                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
+
+                                }
+                                else if (GamePage2.designs[x].Legal == false)
+                                {
+                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, gridInit);
+                                }
                             }
                             else if (GamePage2.designs[x].isOccupied == true)
                             {
-                                canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
+                                if(GamePage2.designs[x].Legal == true)
+                                {
+                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
+
+                                } else if (GamePage2.designs[x].Legal == false)
+                                {
+                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
+                                }
                             }
                         }
                         using (SKImage image = surface.Snapshot())
@@ -114,31 +132,26 @@ namespace ISCEXtest1
         }
         private void MoveShip_Click(object sender, EventArgs e)
         {
-
             int ind = dataGridView1.CurrentCell.RowIndex;
+            int speed = GamePage3.shipListN[ind].speed;
+            int baseInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
 
-            int firstInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
+            int baseX = GamePage2.designs[baseInd].Row;
+            int baseY = GamePage2.designs[baseInd].Column;
 
-            for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
+            for(int i = 1; i < speed; i++)
             {
-                //GamePage2.designs[firstInd + size].isOccupied = false;
-                int thirdInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc+size);
-                GamePage2.designs[thirdInd].isOccupied = false;
-            }
-
-            GamePage3.shipListN[ind].xLoc = GamePage3.shipListN[ind].xLoc + 10;
-            GamePage3.shipListN[ind].yLoc = GamePage3.shipListN[ind].yLoc + 10;
-
-            //int secInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
-
-            for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
-            {
-                int fourthInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + size);
-                GamePage2.designs[fourthInd].isOccupied = true;
+                int yind = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + i && x.Row == GamePage3.shipListN[ind].xLoc);
+                int xInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + i);
+                GamePage2.designs[xInd].Legal = true;
+                GamePage2.designs[yind].Legal = true;
             }
 
             pictureBox1.Refresh();
             panel1.Refresh();
+            MoveShip.Visible = false;
+            ConfirmMove.Visible = true;
+            moveAllow = true;
         }
         private void panel1_Scroll(object sender, ScrollEventArgs e)
         {
@@ -153,7 +166,23 @@ namespace ISCEXtest1
             
         }
         private void ConfirmMove_Click(object sender, EventArgs e)
-        {  
+        {
+            ConfirmMove.Visible = false;
+            if(selectedMove == true)
+            {
+                for (int i = 0; i < GamePage2.designs.Count; i++)
+                {
+                    if (GamePage2.designs[i].Legal == true)
+                    {
+                        GamePage2.designs[i].Legal = false;
+                    }
+                }
+                moveAllow = false;
+            }else if (selectedMove == false)
+            {
+                MessageBox.Show("select a move");
+            }
+
 
         }
 
@@ -161,6 +190,59 @@ namespace ISCEXtest1
         {
 
 
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            if(moveAllow == true)
+            {
+                int ind = dataGridView1.CurrentCell.RowIndex;
+                selectedColumn = e.X;
+                selectedRow = e.Y;
+                int newColumn;
+                int newRow;
+
+                newRow = Math.Abs(GamePage3.shipListN[ind].xLoc - selectedRow);
+                newColumn = Math.Abs(GamePage3.shipListN[ind].yLoc - selectedColumn);
+
+
+                int firstInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
+
+                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
+                {
+                    //GamePage2.designs[firstInd + size].isOccupied = false;
+                    int thirdInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + size);
+                    GamePage2.designs[thirdInd].isOccupied = false;
+                }
+
+                GamePage3.shipListN[ind].xLoc = GamePage3.shipListN[ind].xLoc + selectedRow;
+                GamePage3.shipListN[ind].yLoc = GamePage3.shipListN[ind].yLoc + selectedColumn;
+
+                //int secInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
+
+                for (int size = 0; size < GamePage3.shipListN[ind].Size; size++)
+                {
+                    int fourthInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + size);
+                    GamePage2.designs[fourthInd].isOccupied = true;
+                }
+
+                pictureBox1.Refresh();
+                panel1.Refresh();
+                moveAllow = false;
+
+
+            }
+            else
+            {
+                MessageBox.Show("Select a blue square to move to.");
+            }
+            
         }
     }
 }

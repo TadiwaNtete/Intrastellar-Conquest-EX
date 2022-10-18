@@ -38,6 +38,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.shipDesignerBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.shipDesignerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.sizeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,14 +56,13 @@
             this.MoveShip = new System.Windows.Forms.Button();
             this.ConfirmMove = new System.Windows.Forms.Button();
             this.movementbutton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
@@ -78,6 +78,17 @@
             this.panel1.Click += new System.EventHandler(this.panel1_Click);
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             this.panel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(1003, 1056);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseClick);
+            this.pictureBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.panel1_MouseClick);
             // 
             // shipDesignerBindingSource1
             // 
@@ -281,14 +292,6 @@
             this.movementbutton.Visible = false;
             this.movementbutton.Click += new System.EventHandler(this.movementbutton_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1003, 1056);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // graphicstest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -310,12 +313,12 @@
             this.Load += new System.EventHandler(this.graphicstest_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicstest_Paint);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -43,6 +43,15 @@ namespace ISCEXtest1
             afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
             afflictedZone = GameCommands.addShip(2, false, GamePage2.designs, afflictedZone, shipListN, shipListS);
 
+            for (int i = 0; i < shipListN.Count; i++)
+            {
+                shipListN[i].OccupiedSpace(shipListN, shipListN[i].occupiedSpace, i);
+            }
+            for (int i = 0; i < shipListS.Count; i++)
+            {
+                shipListS[i].OccupiedSpace(shipListS, shipListS[i].occupiedSpace, i);
+            }
+
             var afflicted = GamePage2.designs.Where(a => a.isOccupied == true).FirstOrDefault();
             graphicstest graphicstest = new graphicstest();
             graphicstest.ShowDialog();

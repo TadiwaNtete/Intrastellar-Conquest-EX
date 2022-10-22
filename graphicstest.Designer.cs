@@ -56,6 +56,7 @@
             this.MoveShip = new System.Windows.Forms.Button();
             this.ConfirmMove = new System.Windows.Forms.Button();
             this.movementbutton = new System.Windows.Forms.Button();
+            this.AttackButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.shipDesignerBindingSource1)).BeginInit();
@@ -292,12 +293,28 @@
             this.movementbutton.Visible = false;
             this.movementbutton.Click += new System.EventHandler(this.movementbutton_Click);
             // 
+            // AttackButton
+            // 
+            this.AttackButton.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.AttackButton.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.AttackButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.AttackButton.Font = new System.Drawing.Font("SimSun", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.AttackButton.ForeColor = System.Drawing.Color.Lime;
+            this.AttackButton.Location = new System.Drawing.Point(12, 489);
+            this.AttackButton.Name = "AttackButton";
+            this.AttackButton.Size = new System.Drawing.Size(156, 74);
+            this.AttackButton.TabIndex = 12;
+            this.AttackButton.Text = "Attack Ship";
+            this.AttackButton.UseVisualStyleBackColor = false;
+            this.AttackButton.Click += new System.EventHandler(this.AttackButton_Click);
+            // 
             // graphicstest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1920, 1080);
+            this.ClientSize = new System.Drawing.Size(1556, 884);
+            this.Controls.Add(this.AttackButton);
             this.Controls.Add(this.movementbutton);
             this.Controls.Add(this.ConfirmMove);
             this.Controls.Add(this.MoveShip);
@@ -345,5 +362,6 @@
         private Button ConfirmMove;
         private Button movementbutton;
         private PictureBox pictureBox1;
+        private Button AttackButton;
     }
 }

@@ -32,6 +32,7 @@ namespace ISCEXtest1
         public static int originalRow;
         public static bool moveAllow = false;
         public static bool selectedMove = false;
+        public static bool attackAllow = false;
 
         private void graphicstest_Load(object sender, EventArgs e)
         {
@@ -111,15 +112,8 @@ namespace ISCEXtest1
                                 }
                                 else if (GamePage2.designs[x].isOccupied == true)
                                 {
-                                    if (GamePage2.designs[x].Legal == true)
-                                    {
-                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, blueInit);
+                                    canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
 
-                                    }
-                                    else if (GamePage2.designs[x].Legal == false)
-                                    {
-                                        canvas.DrawRect(GamePage2.designs[x].Column * 9, GamePage2.designs[x].Row * 9, 1, 1, redInit);
-                                    }
                                 }
                             }
                         }
@@ -156,12 +150,79 @@ namespace ISCEXtest1
             int baseX = GamePage2.designs[baseInd].Row;
             int baseY = GamePage2.designs[baseInd].Column;
 
-            for(int i = 1; i < speed; i++)
+            for(int i = 1; i < speed - 1; i++)
             {
-                int yind = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + i && x.Row == GamePage3.shipListN[ind].xLoc);
-                int xInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + i);
-                GamePage2.designs[xInd].Legal = true;
-                GamePage2.designs[yind].Legal = true;
+                
+                    int yind = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + i && x.Row == GamePage3.shipListN[ind].xLoc);
+                    int xInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc + i);
+
+                    int yind2 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc - 1 + i && x.Row == GamePage3.shipListN[ind].xLoc + 1);
+                    int xInd2 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + 1 && x.Row == GamePage3.shipListN[ind].xLoc - 1 + i);
+
+                    int yind3 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc - 2 + i && x.Row == GamePage3.shipListN[ind].xLoc + 2);
+                    int xInd3 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + 2 && x.Row == GamePage3.shipListN[ind].xLoc - 2 + i);
+
+                    int yind4 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc - 3 + i && x.Row == GamePage3.shipListN[ind].xLoc + 3);
+                    int xInd4 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + 3 && x.Row == GamePage3.shipListN[ind].xLoc - 3 + i);
+
+                    int yind5 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc - 4 + i && x.Row == GamePage3.shipListN[ind].xLoc + 4);
+                    int xInd5 = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc + 4 && x.Row == GamePage3.shipListN[ind].xLoc - 4 + i);
+
+               
+
+                    if (xInd != -1)
+                    {
+                        GamePage2.designs[xInd].Legal = true;
+
+                    }
+                    if (yind != -1)
+                    {
+                        GamePage2.designs[yind].Legal = true;
+
+                    }
+
+                    if (xInd2 != -1)
+                    {
+                        GamePage2.designs[xInd2].Legal = true;
+
+                    }
+                    if (yind2 != -1)
+                    {
+                        GamePage2.designs[yind2].Legal = true;
+                    }
+                    if (xInd3 != -1)
+                    {
+                        GamePage2.designs[xInd3].Legal = true;
+
+                    }
+                    if (yind3 != -1)
+                    {
+                        GamePage2.designs[yind3].Legal = true;
+                    }
+                    if (xInd4 != -1)
+                    {
+                        GamePage2.designs[xInd4].Legal = true;
+
+                    }
+                    if (yind4 != -1)
+                    {
+                        GamePage2.designs[yind4].Legal = true;
+                    }
+                if (xInd5 != -1)
+                {
+                    GamePage2.designs[xInd5].Legal = true;
+
+                }
+                if (yind5 != -1)
+                {
+                    GamePage2.designs[yind5].Legal = true;
+                }
+
+            }
+            for (int i = 1; i < speed - 1; i++)
+            {
+                
+
             }
 
             pictureBox1.Refresh();
@@ -232,10 +293,10 @@ namespace ISCEXtest1
 
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
+            int ind = dataGridView1.CurrentCell.RowIndex;
 
-            if(moveAllow == true)
+            if (moveAllow == true)
             {
-                int ind = dataGridView1.CurrentCell.RowIndex;
                 selectedColumn = e.X;
                 selectedRow = e.Y;
                 int newColumn;
@@ -254,11 +315,13 @@ namespace ISCEXtest1
 
                 originalRow = GamePage3.shipListN[ind].xLoc;
                 originalColumn = GamePage3.shipListN[ind].yLoc;
+                GamePage3.shipListN[ind].ResetSpace();
                 GamePage3.shipListN[ind].xLoc = newRow;
                 GamePage3.shipListN[ind].yLoc = newColumn;
 
                 //int secInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
 
+                    
                     int fourthInd = GamePage2.designs.FindIndex(x => x.Column == GamePage3.shipListN[ind].yLoc && x.Row == GamePage3.shipListN[ind].xLoc);
                     GamePage2.designs[fourthInd].Selected = true;
 
@@ -268,12 +331,40 @@ namespace ISCEXtest1
                 moveAllow = false;
                 selectedMove = true;
 
+            }if(attackAllow == true)
+            {
+
+                selectedColumn = e.X;
+                selectedRow = e.Y;
+                int newColumn;
+                int newRow;
+                double dColumn;
+                double dRow;
+
+                newRow = selectedRow;
+                newColumn = selectedColumn;
+
+                dRow = newRow / 9;
+                dColumn = newColumn / 9;
+
+                newColumn = Convert.ToInt32(dColumn);
+                newRow = Convert.ToInt32(dRow);
+
+                GamePage3.shipListN[ind].AttackShip(newRow, newColumn, ind, GamePage2.designs, GamePage3.shipListS);
+
+
             }
             else
             {
                 MessageBox.Show("Select a blue square to move to.");
             }
             
+        }
+
+        private void AttackButton_Click(object sender, EventArgs e)
+        {
+            //int ind = dataGridView1.CurrentCell.RowIndex;
+            attackAllow = true;
         }
     }
 }
